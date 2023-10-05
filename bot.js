@@ -1,0 +1,120 @@
+require('dotenv').config();
+const moment = require('moment');
+const Joke = require('/home/adduser/DiscordJS/joke.js');
+const FileReader = require('/home/adduser/DiscordJS/quotes.js');
+const BungieApi = require('/home/adduser/DiscordJS/bungieapi.js');
+const { Client, GatewayIntentBits } = require('discord.js');
+let bungieId;
+
+const jokeInstance = new Joke();
+const bungieapi = new BungieApi();
+const fileReader = new FileReader('quotes.txt');
+const quotes = fileReader.readLinesFromFile();
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
+});
+
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user.tag}!`);
+    client.user.setActivity({
+      name: "!help for commands and info"
+    })
+  });
+  
+client.login(process.env.TOKEN)
+  .catch(console.error); 
+
+  const extractUsername = (message) => {
+    const messageParts = message.split(/\s(.+)/, 2);
+    return messageParts.length === 2 ? messageParts[1] : '';
+  };
+
+client.on('messageCreate', async (message) => {
+    const content = message.content.toLowerCase();
+    const command = content.split(' ')[0];
+  
+    switch (true) {
+      case command === ('!help'):
+        return helpCommand(message);
+      case command.startsWith('!day1'):
+        bungieId = extractUsername(content);
+        bungieapi.getMembershipInfo(bungieId, 'day1', message);
+        break;
+      case command.startsWith('!lowman'):
+        bungieId = extractUsername(content);
+        bungieapi.getMembershipInfo(bungieId, 'lowman', message);
+        break;
+      case content === ('!quote'):
+        const randomQuote = getRandomQuote(quotes);
+        message.channel.send(randomQuote);
+      case content === ('!joke'):
+        const joke = await jokeInstance.getRandomJoke();
+        message.channel.send(joke);
+        break;
+      case content === ('!dj'):
+        return djCommand(message);
+      case content === ('!was kap blackballed'):
+        await message.channel.send('no');
+        break;  
+      case content.includes('get fucked'):
+        await message.channel.send('<:daddy:1155317974174027798>');
+        break;
+      case content.includes('alert:' || 'good shit dj'):
+        await message.channel.send('<:OK:943235677460529223>');
+        break;
+      default:
+        break;
+    }
+  });
+  
+const djCommand = (message) => {
+  const now = moment();
+  const DJ_SCHEDULE_TIME = "03:15:00";
+  const djTime = moment(DJ_SCHEDULE_TIME, 'HH:mm:ss');
+
+  if (now.isAfter(djTime)) {
+    djTime.add(1, 'day');
+  }
+
+  const timeUntilDj = djTime.diff(now);
+  const duration = moment.duration(timeUntilDj);
+  const hours = duration.hours();
+  const minutes = duration.minutes();
+  const seconds = duration.seconds();
+
+  const response = `DJ_SweatLord is going to get on in ${hours} hours ${minutes} minutes ${seconds} seconds`;
+
+  message.channel.send(response);
+};
+  
+  const getRandomQuote = (quoteArray) => {
+    if (quoteArray.length === 0) {
+      return 'No quotes available.';
+    }
+  
+    const randomIndex = Math.floor(Math.random() * quoteArray.length);
+    return quoteArray[randomIndex];
+  };  
+
+  helpCommand = (message) => {
+    return message.channel.send(`
+      TheQuickster handles the following commands:
+      
+      !day1 bungie_id
+      !lowman bungie_id (Please don't spam it, once every 10s is fine.)
+      !quote
+      !joke
+      !dj
+      !was kap blackballed
+      
+      __Note:__
+      \`!lowman\` iterates through up to 150 pages of an account's raid activity and
+      checks every single clear for lowmans. Please respect Bungie API rates and 
+      limits by not abusing the command. The \`!day1\` command only iterates through
+      raids attempted within the respective 24-hour period. So that command is fine.
+      `);
+  };
