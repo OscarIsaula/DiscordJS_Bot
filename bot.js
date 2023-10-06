@@ -98,8 +98,8 @@ const djCommand = (message) => {
   const seconds = duration.seconds();
   const milliseconds = duration.milliseconds();
 
-  const response = `DJ_SweatLord is going to get on in 
-  ${hours}h ${minutes}m ${seconds}.${milliseconds}s`;
+  const response = `DJ_SweatLord is going to get on in' +  
+    '${hours}h ${minutes}m ${seconds}.${milliseconds}s`;
 
   message.channel.send(response);
 };
