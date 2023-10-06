@@ -93,13 +93,12 @@ const djCommand = (message) => {
 
   const timeUntilDj = djTime.diff(now);
   const duration = moment.duration(timeUntilDj);
-  const hours = duration.hours();
-  const minutes = duration.minutes();
-  const seconds = duration.seconds();
-  const milliseconds = duration.milliseconds();
+  const h = duration.hours();
+  const m = duration.minutes();
+  const s = duration.seconds();
+  const ms = duration.milliseconds();
 
-  const response = `DJ_SweatLord is going to get on in' +  
-    '${hours}h ${minutes}m ${seconds}.${milliseconds}s`;
+  const response = `DJ_SweatLord is going to get on in ${h}h ${m}m ${s}.${ms}s`;
 
   message.channel.send(response);
 };
