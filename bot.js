@@ -4,7 +4,6 @@ const Joke = require('./joke.js');
 const FileReader = require('./quotes.js');
 const BungieApi = require('./bungieapi.js');
 const { Client, GatewayIntentBits } = require('discord.js');
-const embedTitle = '';
 let bungieId;
 
 const jokeInstance = new Joke();
@@ -39,13 +38,6 @@ client.login(process.env.TOKEN)
 client.on('messageCreate', async (message) => {
     const content = message.content.toLowerCase();
     const command = content.split(' ')[0];
-
-    if (message.embeds.length > 0) {
-      message.embeds.forEach((embed) => {
-        embedTitle = embed.title;
-      });
-    }
-    
   
     switch (true) {
       case command === ('!help'):
@@ -73,7 +65,8 @@ client.on('messageCreate', async (message) => {
       case content.includes('get fucked'):
         await message.channel.send('<:daddy:1155317974174027798>');
         break;
-      case embedTitle.toLowerCase.includes('alert') || content.includes('good shit dj'):
+      case content.includes('good shit dj') || content.includes('good shit, dj')
+        || content.includes('good shit. dj') || content.includes('kinda wanna'):
         await message.channel.send('<:OK:943235677460529223>');
         break;
       case content.includes('why dj') || content.includes('is throws'):
