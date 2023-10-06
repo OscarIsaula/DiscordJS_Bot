@@ -73,7 +73,7 @@ client.on('messageCreate', async (message) => {
       case content.includes('get fucked'):
         await message.channel.send('<:daddy:1155317974174027798>');
         break;
-      case embedTitle.toLowerCase.includes('alert:') || content.includes('good shit dj'):
+      case embedTitle.toLowerCase.includes('alert') || content.includes('good shit dj'):
         await message.channel.send('<:OK:943235677460529223>');
         break;
       case content.includes('why dj') || content.includes('is throws'):
