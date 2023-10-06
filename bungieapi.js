@@ -1,6 +1,6 @@
 require('dotenv').config();
-const DayOne = require('/home/adduser/DiscordJS/dayone.js');
-const LowMan = require('/home/adduser/DiscordJS/lowman.js');
+const DayOne = require('./dayone.js');
+const LowMan = require('./lowman.js');
 const axios = require('axios');
 
 const day = new DayOne();
@@ -31,12 +31,12 @@ class BungieApi {
     }
   }
 
-  parseMembershipInfo(responseBody, command, message) {
+  parseMembershipInfo = (responseBody, command, message) => {
     const responseData = responseBody.Response[0];
     const membershipType = responseData.membershipType.toString();
     const membershipId = responseData.membershipId;
     this.getProfileData(membershipType, membershipId, command, message);
-  }
+  };
 
   async getProfileData(membershipType, membershipId, command, message) {
     const searchProfile = `/Destiny2/${membershipType}/Profile/${membershipId}/`;
@@ -51,7 +51,7 @@ class BungieApi {
     }
   }
 
-  parseProfileData(responseBody, membershipType, membershipId, command, message) {
+  parseProfileData = (responseBody, membershipType, membershipId, command, message) => {
     const charactersData = responseBody.Response.characters.data;
     const characterIds = Object.keys(charactersData);
     
@@ -64,7 +64,7 @@ class BungieApi {
     } else if (command === 'lowman') {
       low.getActivityHistory(characterIds, membershipType, membershipId, message);
     }
-  }
+  };
 }
 
 module.exports = BungieApi;

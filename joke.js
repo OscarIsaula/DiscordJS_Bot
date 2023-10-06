@@ -8,7 +8,7 @@ class Joke {
     this.apiUrl = JOKE_API_BASE_URL + this.categories;
   }
 
-  async getRandomJoke() {
+  async getRandomJoke () {
     try {
       const response = await axios.get(this.apiUrl);
       return this.parseApiResponse(response.data);

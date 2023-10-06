@@ -1,7 +1,7 @@
 require('dotenv').config();
 const axios = require('axios');
 const { EmbedBuilder } = require('discord.js');
-const { raids } = require('/home/adduser/DiscordJS/raid.js');
+const { raids } = require('./raid.js');
 
 class LowMan {
   constructor(raids) {

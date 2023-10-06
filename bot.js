@@ -1,8 +1,8 @@
 require('dotenv').config();
 const moment = require('moment');
-const Joke = require('/home/adduser/DiscordJS/joke.js');
-const FileReader = require('/home/adduser/DiscordJS/quotes.js');
-const BungieApi = require('/home/adduser/DiscordJS/bungieapi.js');
+const Joke = require('./joke.js');
+const FileReader = require('./quotes.js');
+const BungieApi = require('./bungieapi.js');
 const { Client, GatewayIntentBits } = require('discord.js');
 let bungieId;
 
@@ -10,6 +10,8 @@ const jokeInstance = new Joke();
 const bungieapi = new BungieApi();
 const fileReader = new FileReader('quotes.txt');
 const quotes = fileReader.readLinesFromFile();
+const emoteUsage = new Map();
+let dailyEmoteCount = 0;
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -63,10 +65,18 @@ client.on('messageCreate', async (message) => {
       case content.includes('get fucked'):
         await message.channel.send('<:daddy:1155317974174027798>');
         break;
-      case content.includes('alert:' || 'good shit dj'):
+      case content.includes('alert:') || content.includes('good shit dj'):
         await message.channel.send('<:OK:943235677460529223>');
         break;
+      case content.includes('why dj') || content.includes('is throws'):
+        sendEmote(message, '<:kekw:761584347098644510>', emoteUsage, dailyEmoteCount);
+        break;
       default:
+        const randomChance = Math.floor(Math.random() * 100) + 1;
+
+        if (randomChance === 1) {
+          await message.channel.send('<:kekw:761584347098644510>');
+        }
         break;
     }
   });
@@ -85,10 +95,34 @@ const djCommand = (message) => {
   const hours = duration.hours();
   const minutes = duration.minutes();
   const seconds = duration.seconds();
+  const milliseconds = duration.milliseconds();
 
-  const response = `DJ_SweatLord is going to get on in ${hours} hours ${minutes} minutes ${seconds} seconds`;
+  const response = `DJ_SweatLord is going to get on in 
+  ${hours}h ${minutes}m ${seconds}.${milliseconds}s`;
 
   message.channel.send(response);
+};
+
+const sendEmote = async(message, emote, emoteUsage, dailyEmoteCount) => {
+  const userId = message.author.id;
+      
+      if (emoteUsage.has(userId)) {
+        const lastUsageTimestamp = emoteUsage.get(userId);
+        const hoursSinceLastUsage = (Date.now() - lastUsageTimestamp) / 1000 / 3600;
+
+        if (hoursSinceLastUsage < 48) {
+          return;
+        }
+      }
+
+      if (dailyEmoteCount >= 5) {
+        return;
+      }
+
+      await message.channel.send(emote);
+
+      emoteUsage.set(userId, Date.now());
+      dailyEmoteCount++;
 };
   
   const getRandomQuote = (quoteArray) => {

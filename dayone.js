@@ -2,7 +2,7 @@ require('dotenv').config();
 const axios = require('axios');
 const moment = require('moment');
 const { EmbedBuilder } = require('discord.js');
-const { raids } = require('/home/adduser/DiscordJS/raid.js');
+const { raids } = require('./raid.js');
 
 class DayOne {
   constructor(raids) {
@@ -119,6 +119,5 @@ class DayOne {
     return embed;
   };
 }
-
 
 module.exports = DayOne;
