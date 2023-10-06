@@ -69,11 +69,12 @@ client.on('messageCreate', async (message) => {
         || content.includes('good shit. dj') || content.includes('kinda wanna'):
         await message.channel.send('<:OK:943235677460529223>');
         break;
-      case content.includes('why dj') || content.includes('is throws'):
+      case content.includes('why dj') || content.includes('is throws')
+        || content.includes('thanks for') || content.includes('throw so'):
         sendEmote(message, '<:kekw:761584347098644510>', emoteUsage, dailyEmoteCount);
         break;
       default:
-        const randomChance = Math.floor(Math.random() * 100) + 1;
+        const randomChance = Math.floor(Math.random() * 200) + 1;
 
         if (randomChance === 1) {
           await message.channel.send('<:kekw:761584347098644510>');
@@ -110,12 +111,12 @@ const sendEmote = async(message, emote, emoteUsage, dailyEmoteCount) => {
         const lastUsageTimestamp = emoteUsage.get(userId);
         const hoursSinceLastUsage = (Date.now() - lastUsageTimestamp) / 1000 / 3600;
 
-        if (hoursSinceLastUsage < 48) {
+        if (hoursSinceLastUsage < 72) {
           return;
         }
       }
 
-      if (dailyEmoteCount >= 5) {
+      if (dailyEmoteCount >= 3) {
         return;
       }
 
