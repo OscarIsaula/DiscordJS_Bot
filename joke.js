@@ -1,10 +1,10 @@
-const axios = require('axios');
+import axios from 'axios';
 
 const JOKE_API_BASE_URL = 'https://v2.jokeapi.dev/joke/';
 
 class Joke {
   constructor() {
-    this.categories = 'Programming,Miscellaneous,Christmas';
+    this.categories = 'Any';
     this.apiUrl = JOKE_API_BASE_URL + this.categories;
   }
 
@@ -36,4 +36,4 @@ class Joke {
   };
 }
 
-module.exports = Joke;
+export default Joke;

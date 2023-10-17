@@ -1,4 +1,4 @@
-const moment = require('moment');
+import moment from 'moment';
 
 class Raid {
   constructor(name, hash, releaseTime, hours) {
@@ -25,4 +25,4 @@ const raids = {
   CE2: new Raid("Crota's End Challenge Mode", "156253568", "2023-09-01T17:00:00Z", 48),
 };
 
-module.exports = { Raid, raids };
+export { Raid, raids };

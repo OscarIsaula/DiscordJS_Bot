@@ -1,12 +1,11 @@
-require('dotenv').config();
-const DayOne = require('./dayone.js');
-const LowMan = require('./lowman.js');
-const axios = require('axios');
+import { config } from 'dotenv';
+import axios from 'axios';
+import DayOne from './dayone.js';
+import LowMan from './lowman.js';
 
-const day = new DayOne();
-const low = new LowMan();
 class BungieApi {
   constructor() {
+    config();
     this.bungieWebClient = axios.create({
       baseURL: 'https://www.bungie.net/Platform',
       headers: {
@@ -14,57 +13,57 @@ class BungieApi {
         'Content-Type': 'application/json',
       },
     });
+    this.dayOne = new DayOne();
+    this.lowMan = new LowMan();
   }
 
   async getMembershipInfo(bungieId, command, message) {
-    const encodedBungieId = encodeURIComponent(bungieId);
-    
-    const searchDestinyPlayer = `/Destiny2/SearchDestinyPlayer/-1/${encodedBungieId}`;
-    console.log('Bungie ID:', bungieId);
-  
     try {
-      const response = await this.bungieWebClient.get(searchDestinyPlayer);
-      const responseBody = response.data;
-      this.parseMembershipInfo(responseBody, command, message);
+      const playerInfo = await this.searchDestinyPlayer(bungieId);
+      if (playerInfo) {
+        const { membershipType, membershipId } = playerInfo;
+        this.getProfileData(membershipType, membershipId, command, message);
+      }
     } catch (error) {
       console.error('Error accessing Bungie API:', error.message);
     }
   }
 
-  parseMembershipInfo = (responseBody, command, message) => {
-    const responseData = responseBody.Response[0];
-    const membershipType = responseData.membershipType.toString();
-    const membershipId = responseData.membershipId;
-    this.getProfileData(membershipType, membershipId, command, message);
-  };
+  async searchDestinyPlayer(bungieId) {
+    const encodedBungieId = encodeURIComponent(bungieId);
+    const searchDestinyPlayer = `/Destiny2/SearchDestinyPlayer/-1/${encodedBungieId}`;
+    
+    try {
+      const response = await this.bungieWebClient.get(searchDestinyPlayer);
+      const responseData = response.data.Response[0];
+      return {
+        membershipType: responseData.membershipType.toString(),
+        membershipId: responseData.membershipId,
+      };
+    } catch (error) {
+      console.error('Error searching Destiny player:', error.message);
+      return null;
+    }
+  }
 
   async getProfileData(membershipType, membershipId, command, message) {
     const searchProfile = `/Destiny2/${membershipType}/Profile/${membershipId}/`;
     const params = { components: '200' };
-
+    
     try {
       const response = await this.bungieWebClient.get(searchProfile, { params });
-      const responseBody = response.data;
-      this.parseProfileData(responseBody, membershipType, membershipId, command, message);
+      const charactersData = response.data.Response.characters.data;
+      const characterIds = Object.keys(charactersData);
+
+      if (command === 'day1') {
+        this.dayOne.getActivityHistory(characterIds, membershipType, membershipId, message);
+      } else if (command === 'lowman') {
+        this.lowMan.getActivityHistory(characterIds, membershipType, membershipId, message);
+      }
     } catch (error) {
       console.error('Error accessing Bungie API for profile data:', error.message);
     }
   }
-
-  parseProfileData = (responseBody, membershipType, membershipId, command, message) => {
-    const charactersData = responseBody.Response.characters.data;
-    const characterIds = Object.keys(charactersData);
-    
-    console.log('Membership Type:', membershipType);
-    console.log('Membership ID:', membershipId);
-    console.log('Character IDs:', characterIds);
-
-    if (command === 'day1') {
-      day.getActivityHistory(characterIds, membershipType, membershipId, message);
-    } else if (command === 'lowman') {
-      low.getActivityHistory(characterIds, membershipType, membershipId, message);
-    }
-  };
 }
 
-module.exports = BungieApi;
+export default BungieApi;

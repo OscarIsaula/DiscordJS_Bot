@@ -1,4 +1,4 @@
-const fs = require('fs');
+import { readFileSync } from 'fs';
 
 class FileReader {
   constructor(fileName) {
@@ -7,7 +7,7 @@ class FileReader {
 
   readLinesFromFile = () => {
     try {
-      const fileContent = fs.readFileSync(this.fileName, 'utf8');
+      const fileContent = readFileSync(this.fileName, 'utf8');
       const lines = fileContent.split('\n');
       return lines;
     } catch (error) {
@@ -17,4 +17,4 @@ class FileReader {
   };
 }
 
-module.exports = FileReader;
+export default FileReader;

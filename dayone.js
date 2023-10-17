@@ -1,12 +1,13 @@
-require('dotenv').config();
-const axios = require('axios');
-const moment = require('moment');
-const { EmbedBuilder } = require('discord.js');
-const { raids } = require('./raid.js');
+import { config } from 'dotenv';
+import axios from 'axios';
+import moment from 'moment';
+import { EmbedBuilder } from 'discord.js';
+import { raids } from './raid.js';
 
 class DayOne {
-  constructor(raids) {
+  constructor() {
     this.raids = raids;
+    config();
     this.webClient = axios.create({
       baseURL: 'https://www.bungie.net/Platform',
       headers: {
@@ -17,13 +18,12 @@ class DayOne {
   }
 
   async getActivityHistory(characterIds, membershipType, membershipId, message) {
-    console.log('Getting activity history...'); // Debugging statement
-
+  
     for (let page = 0; page < 50; page++) {
       for (const characterId of characterIds) {
         const pageNum = page.toString();
         const activityHistoryPath = `/Destiny2/${membershipType}/Account/${membershipId}/Character/${characterId}/Stats/Activities/`;
-
+  
         try {
           const response = await this.webClient.get(activityHistoryPath, {
             params: {
@@ -103,21 +103,19 @@ class DayOne {
         } catch (error) {
           console.error('Error sending message:', error.message);
         }
-
-        console.log(result); // Debugging statement
       }
     }
   };
   
   buildDay1Embed = (results, raidName) => {
     const embed = new EmbedBuilder()
-      .setColor('#FF6464') // Set the embed color
+      .setColor('#FF6464')
       .setTitle(raidName)
       .setDescription(results)
       .setTimestamp();
-  
+
     return embed;
   };
 }
 
-module.exports = DayOne;
+export default DayOne;

@@ -1,17 +1,39 @@
-require('dotenv').config();
-const moment = require('moment');
-const Joke = require('./joke.js');
-const FileReader = require('./quotes.js');
-const BungieApi = require('./bungieapi.js');
-const { Client, GatewayIntentBits } = require('discord.js');
-let bungieId;
+import { config } from 'dotenv';
+import moment from 'moment';
+import { Client, GatewayIntentBits } from 'discord.js';
+
+import Joke from './joke.js';
+import FileReader from './quotes.js';
+import BungieApi from './bungieapi.js';
+import Db from './db.js';
 
 const jokeInstance = new Joke();
 const bungieapi = new BungieApi();
 const fileReader = new FileReader('quotes.txt');
 const quotes = fileReader.readLinesFromFile();
+
 const emoteUsage = new Map();
 let dailyEmoteCount = 0;
+let bungieId;
+let dj = 90;
+let p = 6;
+
+async function main() {
+  try {
+    const client = await Db.connectToDatabase();
+    // For example:
+    const database = client.db("your-database-name");
+    const collection = database.collection("your-collection-name");
+
+    // Perform database operations here
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+}
+
+main();
+config();
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -73,8 +95,30 @@ client.on('messageCreate', async (message) => {
         || content.includes('thanks for') || content.includes('throw so'):
         sendEmote(message, '<:kekw:761584347098644510>', emoteUsage, dailyEmoteCount);
         break;
+      case content === ('+dj'):
+        try {
+          const userId = process.env.ID;
+          const newDjScore = await Db.incrementDjScore(userId);
+          const pScore = await Db.getPScore(userId);
+          message.channel.send(`DJ_SweatLord takes home win #${newDjScore}.`);
+          message.channel.send(`Record against p_slim is now ${newDjScore}-${pScore}.`);
+        } catch (error) {
+          message.channel.send('An error occurred while updating DJ score.');
+        }
+        break;
+      case content === ('+p'):
+        try {
+          const userId = process.env.ID;
+          const newPScore = await Db.incrementPScore(userId);
+          const djScore = await Db.getDjScore(userId);
+          message.channel.send(`p_slim takes home win #${newPScore}.`);
+          message.channel.send(`Record against DJ_SweatLord is now ${newPScore}-${djScore}.`);
+        } catch (error) {
+          message.channel.send('An error occurred while updating p score.');
+        }
+        break;
       default:
-        const randomChance = Math.floor(Math.random() * 200) + 1;
+        const randomChance = Math.floor(Math.random() * 250) + 1;
 
         if (randomChance === 1) {
           await message.channel.send('<:kekw:761584347098644510>');
@@ -84,16 +128,16 @@ client.on('messageCreate', async (message) => {
   });
   
 const djCommand = (message) => {
-  const now = moment();
+  const now = moment.utc();
   const DJ_SCHEDULE_TIME = "03:15:00";
-  const djTime = moment(DJ_SCHEDULE_TIME, 'HH:mm:ss');
+  const djTime = moment.utc(DJ_SCHEDULE_TIME, 'HH:mm:ss');
 
   if (now.isAfter(djTime)) {
     djTime.add(1, 'day');
   }
 
   const timeUntilDj = djTime.diff(now);
-  const duration = moment.duration(timeUntilDj);
+  const duration = moment(timeUntilDj);
   const h = duration.hours();
   const m = duration.minutes();
   const s = duration.seconds();
@@ -126,30 +170,26 @@ const sendEmote = async(message, emote, emoteUsage, dailyEmoteCount) => {
       dailyEmoteCount++;
 };
   
-  const getRandomQuote = (quoteArray) => {
-    if (quoteArray.length === 0) {
-      return 'No quotes available.';
-    }
-  
-    const randomIndex = Math.floor(Math.random() * quoteArray.length);
-    return quoteArray[randomIndex];
-  };  
+const getRandomQuote = (quoteArray) => {
+  const randomIndex = Math.floor(Math.random() * quoteArray.length);
+  return quoteArray[randomIndex];
+};  
 
-  helpCommand = (message) => {
-    return message.channel.send(`
-      TheQuickster handles the following commands:
+const helpCommand = (message) => {
+  return message.channel.send(`
+    TheQuickster handles the following commands:
       
-      !day1 bungie_id
-      !lowman bungie_id (Please don't spam it, once every 10s is fine.)
-      !quote
-      !joke
-      !dj
-      !was kap blackballed
+    !day1 bungie_id
+    !lowman bungie_id (Please don't spam it, once every 10s is fine.)
+    !quote
+    !joke
+    !dj
+    !was kap blackballed
       
-      __Note:__
-      \`!lowman\` iterates through up to 150 pages of an account's raid activity and
-      checks every single clear for lowmans. Please respect Bungie API rates and 
-      limits by not abusing the command. The \`!day1\` command only iterates through
-      raids attempted within the respective 24-hour period. So that command is fine.
-      `);
-  };
+    __Note:__
+    \`!lowman\` iterates through up to 150 pages of an account's raid activity and
+    checks every single clear for lowmans. Please respect Bungie API rates and 
+    limits by not abusing the command. The \`!day1\` command only iterates through
+    raids attempted within the respective 24-hour period. So that command is fine.
+  `);
+};

@@ -1,11 +1,13 @@
-require('dotenv').config();
-const axios = require('axios');
-const { EmbedBuilder } = require('discord.js');
-const { raids } = require('./raid.js');
+import { config } from 'dotenv';
+import axios from 'axios';
+import { EmbedBuilder } from 'discord.js';
+import { raids } from './raid.js';
+
 
 class LowMan {
-  constructor(raids) {
+  constructor() {
     this.raids = raids;
+    config();
     this.webClient = axios.create({
       baseURL: 'https://www.bungie.net/Platform',
       headers: {
@@ -168,7 +170,7 @@ class LowMan {
 
   buildLowManEmbed = (results) => {
     const embed = new EmbedBuilder()
-      .setColor('#FF6464') // Set the embed color
+      .setColor('#FF6464')
       .setDescription(results)
       .setTimestamp();
 
@@ -176,4 +178,4 @@ class LowMan {
   };
 }
 
-module.exports = LowMan;
+export default LowMan;
