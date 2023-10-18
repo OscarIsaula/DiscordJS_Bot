@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import axios from 'axios';
-import DayOne from './dayone.js';
-import LowMan from './lowman.js';
+import DayOne from './DayOne.js';
+import LowMan from './LowMan.js';
 
 class BungieApi {
   constructor() {

@@ -1,13 +1,13 @@
 import { config } from 'dotenv';
 import axios from 'axios';
 import { EmbedBuilder } from 'discord.js';
-import { raids } from './raid.js';
+import { raids } from './Raid.js';
 
 
 class LowMan {
   constructor() {
-    this.raids = raids;
     config();
+    this.raids = raids;
     this.webClient = axios.create({
       baseURL: 'https://www.bungie.net/Platform',
       headers: {
@@ -156,8 +156,7 @@ class LowMan {
   addToReport = async (entry, instanceId, message) => {
     if (!this.report.has(entry)) {
       this.report.add(entry);
-      const raidReport = ` <https://raid.report/pgcr/${instanceId}>`;
-      const finalEntry = entry + raidReport;
+      const finalEntry = `[${entry}](https://raid.report/pgcr/${instanceId})`;
 
       const embed = this.buildLowManEmbed(finalEntry);
       try {

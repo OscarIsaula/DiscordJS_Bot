@@ -2,12 +2,12 @@ import { config } from 'dotenv';
 import axios from 'axios';
 import moment from 'moment';
 import { EmbedBuilder } from 'discord.js';
-import { raids } from './raid.js';
+import { raids } from './Raid.js';
 
 class DayOne {
   constructor() {
-    this.raids = raids;
     config();
+    this.raids = raids;
     this.webClient = axios.create({
       baseURL: 'https://www.bungie.net/Platform',
       headers: {
@@ -94,7 +94,7 @@ class DayOne {
         const duration = values.activityDurationSeconds.basic.displayValue;
         const time = completionTime.utc().format('YYYY-MM-DD HH:mm');
         const result = `Cleared ${hoursAfterLaunch}h ${minutesAfterLaunch}m post launch @ ${time} UTC\n` +
-          `Instance Duration: ${duration} -> <https://raid.report/pgcr/${instanceId}>`;
+          `Instance Duration: ${duration} -> [Raid Report](https://raid.report/pgcr/${instanceId})`;
 
         const embed = this.buildDay1Embed(result, raid.name);
 
