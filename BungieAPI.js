@@ -19,7 +19,7 @@ class BungieApi {
 
   async getMembershipInfo(bungieId, command, message) {
     try {
-      const playerInfo = await this.searchDestinyPlayer(bungieId);
+      const playerInfo = await this.searchDestinyPlayer(bungieId, message);
       if (playerInfo) {
         const { membershipType, membershipId } = playerInfo;
         this.getProfileData(membershipType, membershipId, command, message);
@@ -29,7 +29,7 @@ class BungieApi {
     }
   }
 
-  async searchDestinyPlayer(bungieId) {
+  async searchDestinyPlayer(bungieId, message) {
     const encodedBungieId = encodeURIComponent(bungieId);
     const searchDestinyPlayer = `/Destiny2/SearchDestinyPlayer/-1/${encodedBungieId}`;
     
@@ -42,6 +42,10 @@ class BungieApi {
       };
     } catch (error) {
       console.error('Error searching Destiny player:', error.message);
+      if (message) {
+        message.channel.send(`Error searching Destiny player: ${error.message}\n Please ensure ` + 
+        `proper spelling for command/BungieID with exactly 1 space in between (ex: !day1 Aegis#8706)`);
+      }
       return null;
     }
   }

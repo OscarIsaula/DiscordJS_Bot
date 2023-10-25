@@ -42,31 +42,30 @@ client.login(process.env.TOKEN)
 
 client.on('messageCreate', async (message) => {
   const content = message.content.toLowerCase();
-  const command = content.split(' ')[0];
   
   switch (true) {
-    case command === ('!help'):
+    case content === '!help':
       return fileReader.helpQuote(message);
-    case command.startsWith('!day1'):
+    case content.startsWith('!day1'):
       return bungieapi.getMembershipInfo(content.slice(6), 'day1', message);
-    case command.startsWith('!lowman'):
+    case content.startsWith('!lowman'):
       return bungieapi.getMembershipInfo(content.slice(8), 'lowman', message);
     case content === '!quote':
       return fileReader.getRandomQuote(quotes, message);
-    case content === ('!joke'):
+    case content === '!joke':
       return jokeInstance.getRandomJoke(message);
-    case content === ('!dj'):
+    case content === '!dj':
       return miscFunctions.djTime(message);;
-    case content === ('!was kap blackballed'):
+    case content === '!was kap blackballed':
       return message.channel.send('no');
+    case content === '+dj' || content === '+p':
+      return Db.getScores(content.slice(1), message);
     case content.includes('get fucked'):
       return message.channel.send('<:daddy:1155317974174027798>');
     case okPattern.test(content):
       return message.channel.send('<:OK:943235677460529223>');
     case kekwPattern.test(content):
       return message.channel.send('<:kekw:761584347098644510>');
-    case content === ('+dj') || content === ('+p'):
-      return Db.getScores(content.slice(1), message);
     default:
       return miscFunctions.randomKekw(message);
   }
