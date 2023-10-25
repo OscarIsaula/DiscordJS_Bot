@@ -23,7 +23,7 @@
 1. git clone https://github.com/OscarIsaula/DiscordJS_Bot.git
 2. cd into repo
 3. Run 'npm install' to install dependencies
-4. Provide [Configuration] info in a .env file
+4. Provide [Configuration](#configuration) info in a .env file
 5. Run 'node index.js'
 6. Interact with bot via web browser or Discord App.
 
