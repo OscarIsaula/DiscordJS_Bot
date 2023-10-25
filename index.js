@@ -54,6 +54,8 @@ client.on('messageCreate', async (message) => {
       return fileReader.getRandomQuote(quotes, message);
     case content === '!joke':
       return jokeInstance.getRandomJoke(message);
+    case content === '!flip':
+      return miscFunctions.coinFlip(message);
     case content === '!dj':
       return miscFunctions.djTime(message);;
     case content === '!was kap blackballed':

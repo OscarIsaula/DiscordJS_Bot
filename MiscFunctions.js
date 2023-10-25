@@ -23,13 +23,22 @@ class TimeFunctions {
     return message.channel.send(response);
   };
 
-  randomKekw(message) {
+  randomKekw = (message) => {
     const randomChance = Math.floor(Math.random() * 250) + 1;
 
       if (randomChance === 1) {
         return message.channel.send('<:kekw:761584347098644510>');
       }
-  }
+  };
+
+  coinFlip = (message) => {
+    const nickel = Math.random() < 0.5 ? 1 : 2;
+
+    if (nickel === 1) {
+      return message.channel.send('Heads/Yes');
+    }
+     return message.channel.send('Tails/No');
+  };
 }
 
   export default TimeFunctions;

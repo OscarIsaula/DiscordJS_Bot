@@ -43,8 +43,8 @@ class BungieApi {
     } catch (error) {
       console.error('Error searching Destiny player:', error.message);
       if (message) {
-        message.channel.send(`Error searching Destiny player: ${error.message}\n Please ensure ` + 
-        `proper spelling for command/BungieID with exactly 1 space in between (ex: !day1 Aegis#8706)`);
+        message.channel.send(`Error searching Destiny player: ${error.message}\nPlease ensure ` + 
+        `proper spelling for command/BungieID with exactly 1 space in between (ex: !day1 Aegis#8706).`);
       }
       return null;
     }

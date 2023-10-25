@@ -28,6 +28,7 @@ class FileReader {
       "!lowman bungie_id (Please don't spam it, once every 10s is fine.)\n" +
       "!quote\n" +
       "!joke\n" +
+      "!flip\n" +
       "!dj\n" +
       "!was kap blackballed\n\n" +
       "__Note:__\n" +

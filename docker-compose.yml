@@ -1,0 +1,11 @@
+version: '3'
+services:
+  my-service:
+    image: my-image:latest
+    environment:
+      - TOKEN=${TOKEN}
+      - KEY=${KEY}
+      - DB=${DB}
+      - DB_NAME=${DB_NAME}
+      - COLLECTION_NAME=${COLLECTION_NAME}
+      - ID=${ID}
