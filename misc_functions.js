@@ -9,9 +9,8 @@ class TimeFunctions {
     if (now.isAfter(djTime)) {
       djTime.add(1, 'day');
     }
-      
-    const timeUntilDj = djTime.diff(now);
-    const duration = moment(timeUntilDj);
+
+    const duration = moment.duration(djTime.diff(now));
     const h = duration.hours();
     const m = duration.minutes();
     const s = duration.seconds();
@@ -20,25 +19,25 @@ class TimeFunctions {
     const response = `DJ_SweatLord and his [Twitch](https://www.twitch.tv/dj_sweatlord)` + 
     ` stream are both going to be online in ${h}h ${m}m ${s}.${ms}s`;
       
-    return message.channel.send(response);
+    message.channel.send(response);
   };
 
   randomKekw = (message) => {
     const randomChance = Math.random() < 0.003 ? 1 : 2;
-
-      if (randomChance === 1) {
-        return message.channel.send('<:kekw:761584347098644510>');
-      }
+    randomChance === 1 && message.channel.send('<:kekw:761584347098644510>');
   };
-
+  
   coinFlip = (message) => {
-    const nickel = Math.random() < 0.5 ? 1 : 2;
-
-    if (nickel === 1) {
-      return message.channel.send('Heads/Yes');
-    }
-     return message.channel.send('Tails/No');
+    const result = Math.random() < 0.5 ? 'Heads/Yes' : 'Tails/No';
+    message.channel.send(result);
   };
+
+  diceRoll = (message, numOfSides) => {
+    numOfSides = parseInt(numOfSides);
+    const result = Math.floor(Math.random() * numOfSides) + 1;
+    message.channel.send(result.toString());
+  };
+  
 }
 
   export default TimeFunctions;

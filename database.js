@@ -14,7 +14,7 @@ class Db {
     });
   }
 
-  async connectToDatabase() {
+  connectToDatabase = async () => {
     try {
       await this.client.connect();
       console.log('Connected to MongoDB Atlas');
@@ -23,9 +23,9 @@ class Db {
       console.error('Error connecting to MongoDB Atlas:', error);
       throw error;
     }
-  }
+  };
 
-  async getScores(scoreType, message) {
+  getScores = async (scoreType, message) => {
     const userId = process.env.ID;
     const database = this.client.db(process.env.DB_NAME);
     const collection = database.collection(process.env.COLLECTION_NAME);
@@ -54,7 +54,7 @@ class Db {
       console.error(`Error updating ${scoreType} score:`, error);
       throw error;
     }
-  }
+  };
 }
 
 export default new Db();

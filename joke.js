@@ -8,7 +8,7 @@ class Joke {
     this.apiUrl = JOKE_API_BASE_URL + this.categories;
   }
 
-  async getRandomJoke (message) {
+  getRandomJoke = async (message) => {
     try {
       const response = await axios.get(this.apiUrl);
       const joke = this.parseApiResponse(response.data);
@@ -17,7 +17,7 @@ class Joke {
       console.error('Error fetching joke:', error.message);
       return 'Error: Unable to fetch a joke from the JokeAPI.';
     }
-  }
+  };
 
   parseApiResponse = (responseBody) => {
     try {

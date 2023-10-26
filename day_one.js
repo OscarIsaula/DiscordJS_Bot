@@ -17,7 +17,7 @@ class DayOne {
     });
   }
 
-  async getActivityHistory(characterIds, membershipType, membershipId, message) {
+  getActivityHistory = async (characterIds, membershipType, membershipId, message) => {
   
     for (let page = 0; page < 50; page++) {
       for (const characterId of characterIds) {
@@ -39,7 +39,7 @@ class DayOne {
         }
       }
     }
-  }
+  };
 
   parseActivityHistory = (responseBody, message) => {
     const responseData = responseBody.Response;
@@ -97,7 +97,6 @@ class DayOne {
       .setColor('#FF6464')
       .setTitle(raidName)
       .setDescription(results)
-      .setTimestamp();
 
     return embed;
   };

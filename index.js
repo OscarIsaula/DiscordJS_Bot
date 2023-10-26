@@ -56,6 +56,8 @@ client.on('messageCreate', async (message) => {
       return jokeInstance.getRandomJoke(message);
     case content === '!flip':
       return miscFunctions.coinFlip(message);
+    case content.startsWith('!roll'):
+      return miscFunctions.diceRoll(message, content.slice(5));
     case content === '!dj':
       return miscFunctions.djTime(message);;
     case content === '!was kap blackballed':

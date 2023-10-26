@@ -18,7 +18,7 @@ class LowMan {
     this.report = new Set();
   }
 
-  async getActivityHistory(characterIds, membershipType, membershipId, message) {
+  getActivityHistory = async (characterIds, membershipType, membershipId, message) => {
     for (let page = 0; page < 50; page++) {
       for (const characterId of characterIds) {
         const pageNum = page.toString();
@@ -39,7 +39,7 @@ class LowMan {
         }
       }
     }
-  }
+  };
 
   parseActivityHistory = (responseBody, message) => {
     const responseData = responseBody.Response;
@@ -60,7 +60,7 @@ class LowMan {
     }
   };
 
-  getInstanceIds(activity, raid, message) {
+  getInstanceIds = (activity, raid, message) => {
     const values = activity.values;
     const completedValue = values.completed.basic.value;
     const playerCount = values.playerCount.basic.value;
@@ -69,9 +69,9 @@ class LowMan {
       const instanceId = activity.activityDetails.instanceId.toString();
       this.pgcrEndpoint(instanceId, raid, message);
     }
-  }
+  };
 
-  pgcrEndpoint = (instanceId, raid, message) => {
+  pgcrEndpoint = async (instanceId, raid, message) => {
     const pgcrEndpointURL = `/Destiny2/Stats/PostGameCarnageReport/${instanceId}/`;
 
     const statsWebClient = axios.create({
@@ -112,26 +112,13 @@ class LowMan {
   };
 
   raidTags = (playerCount, responseData, totalDeaths, raid, instanceId, message) => {
-    const lowmanCategory = this.getLowmanCategory(playerCount);
-    const flawlessStatus = this.isFlawless(totalDeaths);
-    const fresh = this.isFresh(responseData);
+    const lowmanCategory = playerCount === 2 ? "Duo " : playerCount === 3 ? "Trio " : "Solo ";
+    const flawlessStatus = totalDeaths === 0 ? "Flawless " : "";
+    const isFresh = responseData.activityWasStartedFromBeginning ? "Fresh " : "Checkpoint ";
 
-    const entry = lowmanCategory + flawlessStatus + fresh + raid.name;
+    const entry = `${lowmanCategory}${flawlessStatus}${isFresh}${raid.name}`;
     this.addToReport(entry, instanceId, message);
-  };
-
-  getLowmanCategory = (playerCount) => {
-    return playerCount === 2 ? "Duo " : playerCount === 3 ? "Trio " : "Solo ";
-  };
-
-  isFlawless = (totalDeaths) => {
-    return totalDeaths === 0 ? "Flawless " : "";
-  };
-
-  isFresh = (responseData) => {
-    const isFresh = responseData.activityWasStartedFromBeginning;
-    return isFresh ? "Fresh " : "Checkpoint ";
-  };
+};
 
   addToReport = async (entry, instanceId, message) => {
     if (!this.report.has(entry)) {
@@ -151,7 +138,6 @@ class LowMan {
     const embed = new EmbedBuilder()
       .setColor('#FF6464')
       .setDescription(results)
-      .setTimestamp();
 
     return embed;
   };

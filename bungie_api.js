@@ -17,7 +17,7 @@ class BungieApi {
     this.lowMan = new LowMan();
   }
 
-  async getMembershipInfo(bungieId, command, message) {
+  getMembershipInfo = async (bungieId, command, message) => {
     try {
       const playerInfo = await this.searchDestinyPlayer(bungieId, message);
       if (playerInfo) {
@@ -27,9 +27,9 @@ class BungieApi {
     } catch (error) {
       console.error('Error accessing Bungie API:', error.message);
     }
-  }
+  };
 
-  async searchDestinyPlayer(bungieId, message) {
+  searchDestinyPlayer = async (bungieId, message) => {
     const encodedBungieId = encodeURIComponent(bungieId);
     const searchDestinyPlayer = `/Destiny2/SearchDestinyPlayer/-1/${encodedBungieId}`;
     
@@ -48,9 +48,9 @@ class BungieApi {
       }
       return null;
     }
-  }
+  };
 
-  async getProfileData(membershipType, membershipId, command, message) {
+  getProfileData = async (membershipType, membershipId, command, message) => {
     const searchProfile = `/Destiny2/${membershipType}/Profile/${membershipId}/`;
     const params = { components: '200' };
     
@@ -67,7 +67,7 @@ class BungieApi {
     } catch (error) {
       console.error('Error accessing Bungie API for profile data:', error.message);
     }
-  }
+  };
 }
 
 export default BungieApi;
