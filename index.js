@@ -1,11 +1,11 @@
 import { config } from 'dotenv';
 import { Client, GatewayIntentBits } from 'discord.js';
 
-import Joke from './Joke.js';
-import FileReader from './Quotes.js';
-import BungieApi from './BungieAPI.js';
-import Db from './Database.js';
-import MiscFunctions from './MiscFunctions.js';
+import Joke from './joke.js';
+import FileReader from './quotes.js';
+import BungieApi from './bungie_api.js';
+import Db from './database.js';
+import MiscFunctions from './misc_functions.js';
 
 const jokeInstance = new Joke();
 const miscFunctions = new MiscFunctions();

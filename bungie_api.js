@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import axios from 'axios';
-import DayOne from './DayOne.js';
-import LowMan from './LowMan.js';
+import DayOne from './day_one.js';
+import LowMan from './low_man.js';
 
 class BungieApi {
   constructor() {
@@ -61,9 +61,9 @@ class BungieApi {
 
       if (command === 'day1') {
         this.dayOne.getActivityHistory(characterIds, membershipType, membershipId, message);
-      } else if (command === 'lowman') {
-        this.lowMan.getActivityHistory(characterIds, membershipType, membershipId, message);
+        return;
       }
+      this.lowMan.getActivityHistory(characterIds, membershipType, membershipId, message);
     } catch (error) {
       console.error('Error accessing Bungie API for profile data:', error.message);
     }

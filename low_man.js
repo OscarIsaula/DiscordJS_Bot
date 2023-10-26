@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import axios from 'axios';
 import { EmbedBuilder } from 'discord.js';
-import { raids } from './Raid.js';
+import { raids } from './raid.js';
 
 
 class LowMan {
@@ -48,22 +48,7 @@ class LowMan {
       return;
     }
     const activities = responseData.activities;
-
-    const raidList = [
-      raids.LW,
-      raids.SotP,
-      raids.CoS,
-      raids.GoS,
-      raids.DSC,
-      raids.VoG,
-      raids.VoG2,
-      raids.VotD,
-      raids.KF,
-      raids.KF2,
-      raids.RoN,
-      raids.CE,
-      raids.CE2,
-    ];
+    const raidList = Object.values(raids);
 
     for (let i = 0; i < activities.length; i++) {
       const activity = activities[i];
@@ -108,10 +93,9 @@ class LowMan {
 
   isLowMan = (responseBody, raid, instanceId, message) => {
     const responseData = responseBody.Response;
-
+    const entries = responseData.entries;
     const accountCount = new Set();
     let totalDeaths = 0.0;
-    const entries = responseData.entries;
 
     for (let i = 0; i < entries.length; i++) {
       const entry = entries[i];
@@ -130,18 +114,14 @@ class LowMan {
   raidTags = (playerCount, responseData, totalDeaths, raid, instanceId, message) => {
     const lowmanCategory = this.getLowmanCategory(playerCount);
     const flawlessStatus = this.isFlawless(totalDeaths);
-    const freshness = this.isFresh(responseData);
+    const fresh = this.isFresh(responseData);
 
-    const entry = lowmanCategory + flawlessStatus + freshness + raid.name;
+    const entry = lowmanCategory + flawlessStatus + fresh + raid.name;
     this.addToReport(entry, instanceId, message);
   };
 
   getLowmanCategory = (playerCount) => {
-    switch (playerCount) {
-      case 2: return "Duo ";
-      case 3: return "Trio ";
-      default: return "Solo ";
-    }
+    return playerCount === 2 ? "Duo " : playerCount === 3 ? "Trio " : "Solo ";
   };
 
   isFlawless = (totalDeaths) => {

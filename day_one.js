@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 import axios from 'axios';
 import moment from 'moment';
 import { EmbedBuilder } from 'discord.js';
-import { raids } from './Raid.js';
+import { raids } from './raid.js';
 
 class DayOne {
   constructor() {
@@ -48,22 +48,7 @@ class DayOne {
       return;
     }
     const activities = responseData.activities;
-  
-    const raidList = [
-      raids.LW,
-      raids.SotP,
-      raids.CoS,
-      raids.GoS,
-      raids.DSC,
-      raids.VoG,
-      raids.VoG2,
-      raids.VotD,
-      raids.KF,
-      raids.KF2,
-      raids.RoN,
-      raids.CE,
-      raids.CE2,
-    ];
+    const raidList = Object.values(raids);
   
     for (let i = 0; i < activities.length; i++) {
       const activity = activities[i];

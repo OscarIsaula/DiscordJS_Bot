@@ -24,7 +24,7 @@ class TimeFunctions {
   };
 
   randomKekw = (message) => {
-    const randomChance = Math.floor(Math.random() * 250) + 1;
+    const randomChance = Math.random() < 0.003 ? 1 : 2;
 
       if (randomChance === 1) {
         return message.channel.send('<:kekw:761584347098644510>');
