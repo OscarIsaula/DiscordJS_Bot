@@ -52,6 +52,7 @@ Replace "XXX" with the actual info
 # Misc Bot Commands
 
 - '!flip': flips a coin.
+- '!roll(x)': rolls an x sided die.
 - '!dj': displays the time remaining until DJ, who runs a tight and consistent schedule, gets online.
 - '!was kap blackballed': returns 'no'.
 - '+p': adds 1 to the respective database object, which is p's score against DJ.

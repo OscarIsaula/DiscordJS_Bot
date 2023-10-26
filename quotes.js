@@ -29,7 +29,7 @@ class FileReader {
       "!quote\n" +
       "!joke\n" +
       "!flip\n" +
-      "!roll'x'\n" +
+      "!roll(x)\n" +
       "!dj\n" +
       "!was kap blackballed\n\n" +
       "__Note:__\n" +
