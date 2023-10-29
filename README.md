@@ -54,6 +54,6 @@ Replace "XXX" with the actual info
 - '!flip': flips a coin.
 - '!roll(x)': rolls an x sided die.
 - '!dj': displays the time remaining until DJ, who runs a tight and consistent schedule, gets online.
-- '!was kap blackballed': returns 'no'.
 - '+p': adds 1 to the respective database object, which is p's score against DJ.
 - '+dj': adds 1 to the respective database object, which is DJ's score against p.
+- '!was kap blackballed': returns 'no'.

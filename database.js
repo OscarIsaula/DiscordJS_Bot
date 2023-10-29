@@ -25,7 +25,7 @@ class Db {
     }
   };
 
-  getScores = async (scoreType, message) => {
+  getScores = async (command, scoreType, message) => {
     const userId = process.env.ID;
     const database = this.client.db(process.env.DB_NAME);
     const collection = database.collection(process.env.COLLECTION_NAME);
@@ -36,7 +36,8 @@ class Db {
 
       if (userDocument) {
         const currentScore = userDocument[scoreType] || 0;
-        const newScore = currentScore + 1;
+        const newScore = command === '+' ? currentScore + 1 : currentScore - 1;
+        const text = command === '+' ?  ' takes home win #' : ' drops down to win #';
 
         await collection.updateOne(filter, { $set: { [scoreType]: newScore } });
 
@@ -45,7 +46,7 @@ class Db {
         const opponentName = scoreType === 'dj' ? 'p-slim' : 'DJ_SweatLord';
         const opponentScore = userDocument[opponentScoreType] || 0;
 
-        return message.channel.send(`${name} takes home win #${newScore}!\n` + 
+        return message.channel.send(`${name}${text}${newScore}!\n` + 
         `Record against ${opponentName} is now ${newScore}-${opponentScore}.`);
       } else {
         throw new Error(`User with ID ${userId} not found.`);

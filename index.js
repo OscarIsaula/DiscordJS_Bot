@@ -37,8 +37,7 @@ client.on('ready', async () => {
   }
 });
 
-client.login(process.env.TOKEN)
-  .catch(console.error); 
+client.login(process.env.TOKEN).catch(console.error); 
 
 client.on('messageCreate', async (message) => {
   const content = message.content.toLowerCase();
@@ -60,10 +59,10 @@ client.on('messageCreate', async (message) => {
       return miscFunctions.diceRoll(message, content.slice(5));
     case content === '!dj':
       return miscFunctions.djTime(message);;
+    case content === '+dj' || content === '+p' || content === '-dj' || content === '-p':
+      return Db.getScores(content[0], content.slice(1), message);
     case content === '!was kap blackballed':
       return message.channel.send('no');
-    case content === '+dj' || content === '+p':
-      return Db.getScores(content.slice(1), message);
     case content.includes('get fucked'):
       return message.channel.send('<:daddy:1155317974174027798>');
     case okPattern.test(content):
