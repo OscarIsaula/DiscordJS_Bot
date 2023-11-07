@@ -37,13 +37,13 @@ class Db {
       if (userDocument) {
         const currentScore = userDocument[scoreType] || 0;
         const newScore = command === '+' ? currentScore + 1 : currentScore - 1;
-        const text = command === '+' ?  ' takes home win #' : ' drops down to win #';
+        const text = command === '+' ?  ' takes home win #' : ' takes an L.    Win count is down to #';
 
         await collection.updateOne(filter, { $set: { [scoreType]: newScore } });
 
         const opponentScoreType = scoreType === 'dj' ? 'p' : 'dj';
-        const name = scoreType === 'dj' ? 'DJ_SweatLord' : 'p-slim';
-        const opponentName = scoreType === 'dj' ? 'p-slim' : 'DJ_SweatLord';
+        const name = scoreType === 'dj' ? 'DJSkips_a_beat' : 'LegendaryDopeBoi';
+        const opponentName = scoreType === 'dj' ? 'LegendaryDopeBoi' : 'DJSkips_a_beat';
         const opponentScore = userDocument[opponentScoreType] || 0;
 
         return message.channel.send(`${name}${text}${newScore}!\n` + 

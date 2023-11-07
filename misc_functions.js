@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-class TimeFunctions {
+class MiscFunctions {
   djTime = (message) => {
     const now = moment.utc();
     const DJ_SCHEDULE_TIME = "03:15:00";
@@ -40,4 +40,4 @@ class TimeFunctions {
   
 }
 
-  export default TimeFunctions;
+  export default MiscFunctions;
