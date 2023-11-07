@@ -4,7 +4,7 @@ class MiscFunctions {
   djTime = (message) => {
     moment.tz.setDefault('America/New_York');
     const now = moment();
-    const DJ_SCHEDULE_TIME = "03:15:00";
+    const DJ_SCHEDULE_TIME = "23:15:00";
     const djTime = moment(DJ_SCHEDULE_TIME, 'HH:mm:ss');
       
     if (now.isAfter(djTime)) {
