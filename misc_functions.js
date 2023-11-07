@@ -1,10 +1,11 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 class MiscFunctions {
   djTime = (message) => {
-    const now = moment.utc();
+    moment.tz.setDefault('America/New_York');
+    const now = moment();
     const DJ_SCHEDULE_TIME = "03:15:00";
-    const djTime = moment.utc(DJ_SCHEDULE_TIME, 'HH:mm:ss');
+    const djTime = moment(DJ_SCHEDULE_TIME, 'HH:mm:ss');
       
     if (now.isAfter(djTime)) {
       djTime.add(1, 'day');
