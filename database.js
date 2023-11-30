@@ -37,7 +37,7 @@ class Db {
       if (userDocument) {
         const currentScore = userDocument[scoreType] || 0;
         const newScore = command === '+' ? currentScore + 1 : currentScore - 1;
-        const text = command === '+' ?  ' takes home win #' : ' takes an L.    Win count is down to #';
+        const text = command === '+' ?  ' takes home win #' : ' takes an L. Win count is down to ';
 
         await collection.updateOne(filter, { $set: { [scoreType]: newScore } });
 
