@@ -31,7 +31,7 @@ class FileReader {
       "!flip\n" +
       "!roll(x)\n" +
       "!dj\n" +
-      "+p/+dj\n" +
+      "+p/+dj/-p/-dj\n" +
       "!was kap blackballed\n\n" +
       "__Note:__\n" +
       "`!lowman` iterates through up to 150 pages of an account's raid activity and " +
