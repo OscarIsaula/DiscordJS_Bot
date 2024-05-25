@@ -26,6 +26,22 @@ class MiscFunctions {
   randomKekw = (message) => {
     const randomChance = Math.random() < 0.003 ? 1 : 2;
     randomChance === 1 && message.channel.send('<:kekw:761584347098644510>');
+    randomChance === 2 && this.randomReaction(message);
+  };
+
+  randomReaction = (message) => {
+    const reaction = Math.random();
+    switch (true) {
+      case (reaction < 0.0025):
+        return message.react('<:dj:1179636669247398009>');
+      case (reaction <= 0.005 && reaction > 0.0025):
+        return message.react('<:jayson:1180221462368485396>');
+      case (reaction <= 0.0075 && reaction > 0.005):
+        return message.react('<:OK:943235677460529223>');
+      case (reaction <= 0.01 && reaction > 0.0075):
+        return message.react('<:harold:1153568158150578216>');
+
+    }
   };
   
   coinFlip = (message) => {
