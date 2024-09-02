@@ -54,6 +54,21 @@ class MiscFunctions {
     const result = Math.floor(Math.random() * numOfSides) + 1;
     message.channel.send(result.toString());
   };
+
+  goatGif = (message) => {
+    const gif = Math.random();
+    switch (true) {
+      case (gif < 0.25):
+        return message.channel.send('https://giphy.com/gifs/tongue-goat-cMso9wDwqSy3e');
+      case (gif <= 0.5 && gif > 0.25):
+        return message.channel.send('https://giphy.com/gifs/funny-goat-CzHhegH2ZGsPS');
+      case (gif <= 0.75 && gif > 0.5):
+        return message.channel.send('https://giphy.com/gifs/hat-enjoy-buddy-yQNh7v1vKiE4U');
+      case (gif <= 1 && gif > 0.75):
+        return message.channel.send('https://giphy.com/gifs/goat-3oEduYhWuU6OLRSXbG');
+
+    }
+  }
   
 }
 

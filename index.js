@@ -70,6 +70,8 @@ client.on('messageCreate', async (message) => {
 		return message.channel.send('<:OK:943235677460529223>');
 	case kekwPattern.test(content):
 		return message.channel.send('<:kekw:761584347098644510>');
+	case content.includes('seneca') || content.includes('ronthamasstadon'):
+		return miscFunctions.goatGif(message);
 	default:
 		return miscFunctions.randomKekw(message);
 	}
