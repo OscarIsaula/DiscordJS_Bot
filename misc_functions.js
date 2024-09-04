@@ -40,7 +40,8 @@ class MiscFunctions {
         return message.react('<:OK:943235677460529223>');
       case (reaction <= 0.01 && reaction > 0.0075):
         return message.react('<:harold:1153568158150578216>');
-
+      case (reaction <= 0.0125 && reaction > 0.01):
+        return message.react('<:kekw:761584347098644510>');
     }
   };
   

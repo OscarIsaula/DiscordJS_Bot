@@ -60,6 +60,8 @@ client.on('messageCreate', async (message) => {
 		return miscFunctions.diceRoll(message, content.slice(5));
 	case content === '!dj':
 		return miscFunctions.djTime(message);
+	case content.includes('seneca') || content.includes('ronthamasstadon'):
+		return miscFunctions.goatGif(message);
 	case content === '+dj' || content === '+p' || content === '-dj' || content === '-p':
 		return Db.getScores(content[0], content.slice(1), message);
 	case content === '!was kap blackballed':
@@ -70,8 +72,6 @@ client.on('messageCreate', async (message) => {
 		return message.channel.send('<:OK:943235677460529223>');
 	case kekwPattern.test(content):
 		return message.channel.send('<:kekw:761584347098644510>');
-	case content.includes('seneca') || content.includes('ronthamasstadon'):
-		return miscFunctions.goatGif(message);
 	default:
 		return miscFunctions.randomKekw(message);
 	}
