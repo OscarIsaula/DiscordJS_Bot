@@ -31,7 +31,11 @@ class MiscFunctions {
 
   randomReaction = (message) => {
     const reaction = Math.random();
+    const id = message.author.id;
+
     switch (true) {
+      case (id == 267035383156441099):
+        return message.react('😐')
       case (reaction < 0.0025):
         return message.react('<:dj:1179636669247398009>');
       case (reaction <= 0.005 && reaction > 0.0025):
