@@ -34,7 +34,7 @@ class MiscFunctions {
     const id = message.author.id;
 
     switch (true) {
-      case (id == 267035383156441099):
+      case (id == 290831327924715521 && reaction < 0.9):
         return message.react('😐')
       case (reaction < 0.0025):
         return message.react('<:dj:1179636669247398009>');
