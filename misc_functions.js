@@ -32,10 +32,13 @@ class MiscFunctions {
   randomReaction = (message) => {
     const reaction = Math.random();
     const id = message.author.id;
+    const content = message.content.toLowerCase();
 
     switch (true) {
-      case (id == 290831327924715521 && reaction > 0.9):
+      case (id == 290831327924715521 && reaction > 0.99):
         return message.react('😐')
+      case (id == 650854433353236511 && (content.includes('ohtani') || content.includes('shohei') || content.includes('dodgers'))):
+        return message.reply('Wrong chat bruh');
       case (reaction < 0.0025):
         return message.react('<:dj:1179636669247398009>');
       case (reaction <= 0.005 && reaction > 0.0025):
@@ -74,7 +77,18 @@ class MiscFunctions {
 
     }
   }
-  
-}
 
+  jaysonMercs = (message) => {
+
+    // Calculate days since January 30, 2025
+    const startDate = new Date("2025-01-30");
+    const today = new Date();
+    const timeDifference = today - startDate;
+    const daysSince = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+    // Send message with image and days count
+    message.channel.send(`Micro Center Dallas\nDays since January 30, 2025: **${daysSince}**`);
+  }
+}
+  
   export default MiscFunctions;
