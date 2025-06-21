@@ -67,7 +67,7 @@ client.on('messageCreate', async (message) => {
 	case content === '!was kap blackballed':
 		return message.channel.send('no');
 	case content.includes('get fucked'):
-		return message.channel.send('<:dj:1179636669247398009>');
+		return message.channel.send({ files: ['dj.png.jpeg'] });
 	case okPattern.test(content):
 		return message.channel.send('<:OK:943235677460529223>');
 	case kekwPattern.test(content):
