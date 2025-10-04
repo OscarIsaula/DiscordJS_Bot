@@ -39,7 +39,7 @@ class MiscFunctions {
         return message.react('😐')
       case (id == 650854433353236511 && (content.includes('ohtani') || content.includes('shohei') || content.includes('dodgers'))):
         message.reply("Wrong chat bruh");
-        message.channel.send("-dj");
+        // message.channel.send("-dj");
         return;
       case (reaction < 0.0025):
         return message.react('<:dj:1179636669247398009>');
