@@ -1,17 +1,20 @@
 import { config } from 'dotenv';
 import { Client, GatewayIntentBits } from 'discord.js';
+import OpenAI from "openai";
 
 import Joke from './joke.js';
 import FileReader from './quotes.js';
 import BungieApi from './bungie_api.js';
 import Db from './database.js';
 import MiscFunctions from './misc_functions.js';
+import ChatGPT from './chatgpt.js';
 
 const jokeInstance = new Joke();
 const miscFunctions = new MiscFunctions();
 const bungieapi = new BungieApi();
 const fileReader = new FileReader('Quotes.txt');
 const quotes = fileReader.readLinesFromFile();
+const chatgpt = new ChatGPT();
 
 const okPattern = /good\s+shit\s+dj|good\s+shit,\s+dj|kinda\s+wanna/i;
 const kekwPattern = /why\s+dj|is\s+throws|thanks\s+for|throw\s+so/i;
@@ -72,6 +75,9 @@ client.on('messageCreate', async (message) => {
 		return message.channel.send('<:OK:943235677460529223>');
 	case kekwPattern.test(content):
 		return message.channel.send('<:kekw:761584347098644510>');
+	case message.mentions.has(client.user.id):
+		const response = await chatgpt.askChatGPT(message.content);
+		return message.reply(response);
 	default:
 		return miscFunctions.randomKekw(message);
 	}
