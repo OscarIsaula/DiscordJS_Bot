@@ -10,6 +10,12 @@ class ChatGPT {
 
     const response = await openai.responses.create({
       model: 'gpt-5.6',
+      tools: [
+    {
+      type: 'web_search'
+    }
+  ],
+  tool_choice: 'auto',
       input: message
     });
 
