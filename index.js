@@ -46,6 +46,8 @@ client.login(process.env.TOKEN).catch(console.error);
 client.on('messageCreate', async (message) => {
 	const content = message.content.toLowerCase();
 
+	if (message.author.bot) return;
+
 	switch (true) {
 	case content === '!help':
 		return fileReader.helpQuote(message);
@@ -76,7 +78,7 @@ client.on('messageCreate', async (message) => {
 	case kekwPattern.test(content):
 		return message.channel.send('<:kekw:761584347098644510>');
 	case message.mentions.has(client.user.id):
-		const response = await chatgpt.askChatGPT(message.content);
+		const response = await chatgpt.askChatGPT(message);
 		return message.reply(response);
 	default:
 		return miscFunctions.randomKekw(message);
